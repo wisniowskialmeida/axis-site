@@ -199,6 +199,10 @@
   var INSTAGRAM = "axis.marketingesportivo";   // @ do Instagram da AXIS
   // =============================================================
 
+  // CRM (Supabase) — chave PÚBLICA, segura para o site (só permite inserir leads)
+  var SUPABASE_URL = "https://tkjkzmoeftqxexogivqu.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_cW5WuUqGqiBuWBM58HozPA_vv-iymvg";
+
   // aplica os contatos nos links
   var waHref = "https://wa.me/" + WHATSAPP;
   document.getElementById("cta-top").href = waHref;
@@ -210,13 +214,31 @@
   document.getElementById("lead").addEventListener("submit", function (e) {
     e.preventDefault();
     var f = e.target;
+    var lead = {
+      nome: f.nome.value, academia: f.academia.value, cidade: f.cidade.value,
+      alunos: f.alunos.value, whatsapp: f.whats.value, origem: "site"
+    };
+    // salva o lead no CRM (não trava o WhatsApp se der erro de rede)
+    try {
+      fetch(SUPABASE_URL + "/rest/v1/leads", {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify(lead)
+      }).catch(function () {});
+    } catch (err) {}
+    // abre o WhatsApp com o resumo já preenchido
     var msg =
       "Olá! Vim pelo site da AXIS.\n\n" +
-      "Nome: " + f.nome.value + "\n" +
-      "Academia: " + f.academia.value + "\n" +
-      "Cidade: " + f.cidade.value + "\n" +
-      "Alunos: " + f.alunos.value + "\n" +
-      "Meu WhatsApp: " + f.whats.value + "\n\n" +
+      "Nome: " + lead.nome + "\n" +
+      "Academia: " + lead.academia + "\n" +
+      "Cidade: " + lead.cidade + "\n" +
+      "Alunos: " + lead.alunos + "\n" +
+      "Meu WhatsApp: " + lead.whatsapp + "\n\n" +
       "Quero entender como a AXIS pode trazer mais alunos.";
     window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank");
   });
