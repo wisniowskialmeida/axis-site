@@ -102,7 +102,7 @@
       </svg>
       <b>AXIS<span>.</span></b>
     </div>
-    <a class="btn" id="cta-top" href="#contato">Falar no WhatsApp</a>
+    <a class="btn" id="cta-top" href="#contato" target="_blank" rel="noopener">Falar no WhatsApp</a>
   </header>
 
   <section class="hero">
@@ -110,8 +110,8 @@
     <h1>Mais alunos na sua academia, <em>sem depender de sorte.</em></h1>
     <p class="lead">A AXIS conecta marketing, atendimento e inteligência artificial para transformar interesse em <b>aulas experimentais</b> e <b>matrículas</b> — com um processo que você consegue medir.</p>
     <div class="cta">
-      <a class="btn" href="#contato">Quero mais alunos</a>
-      <a class="btn ghost" href="#como">Como funciona</a>
+      <a class="btn" id="cta-hero" href="#contato" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn ghost" href="#contato">Deixar meus dados</a>
     </div>
     <p class="trust">Começe com um <b>piloto de 90 dias</b>, escopo claro e indicadores combinados. Sem promessa mágica: resultado medido do primeiro contato à matrícula.</p>
   </section>
@@ -204,8 +204,9 @@
   var SUPABASE_KEY = "sb_publishable_cW5WuUqGqiBuWBM58HozPA_vv-iymvg";
 
   // aplica os contatos nos links
-  var waHref = "https://wa.me/" + WHATSAPP;
+  var waHref = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Olá! Vim pelo site da AXIS e quero saber como trazer mais alunos pra minha academia.");
   document.getElementById("cta-top").href = waHref;
+  var ctaHero = document.getElementById("cta-hero"); if (ctaHero) ctaHero.href = waHref;
   document.getElementById("wa-link").href = waHref;
   document.getElementById("ig-link").href = "https://instagram.com/" + INSTAGRAM;
   document.getElementById("ig-link").textContent = "@" + INSTAGRAM;
